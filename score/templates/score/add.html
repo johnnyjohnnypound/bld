@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>添加积分-清华大学辩论队</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<div style="position:fixed;
+	right:5pt;top:0;
+	font-size:11pt;
+	color:black;
+	background-color:rgba(225,225,225,0.7);
+	padding:0 0.5em" >
+{% if name %}
+你好 {{name}}({{un}}) [<a href="/accounts/logout/">登出</a>]
+{% else %}
+ [<a href="/accounts/login/">登录</a>]
+{% endif %}
+ [<a href="/">回主页</a>]
+</div>
+
+
+<div class="container" style="max-width:50em;background-color:rgb(240,248,240);">
+
+<h1> 添加积分记录 </h1>
+<hr>
+
+<form class="form-horizontal" method="POST"  action="">
+{% csrf_token %}
+<div class="form-group">
+    <label class="col-sm-2 control-label">姓名</label>
+    <div class="col-sm-8">
+      <p class="form-control-static">{{name}}</p>
+    </div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label"> 类型 </label>
+	<div class="col-sm-4">
+	<select class="form-control" id="kind">
+	  	<option secleted="secleted" id="def">-- 请选择 --</option>
+	  	<option value="zs">正赛</option>
+	  	<option value="mb">模辩</option>
+	  	<option value="bys">表演赛</option>
+	  	<option value="cw">场务</option>
+	  	<option value="other">其他</option>
+	</select>
+	</div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">分数</label>
+    <div class="col-sm-8">
+      <p class="form-control-static" id="f-score">0</p>
+    </div>
+</div>
+  
+<div class="form-group">
+	<label class="col-sm-2 control-label" id="f-name"> 名称 </label>
+	<div class="col-sm-8">
+	<input type="text" class="form-control" id="title"> 
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label" id="f-detail"> 细节 </label>
+	<div class="col-sm-8">
+	<input type="text" class="form-control" id="detail"> 
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label" id="f-date"> 日期 </label>
+	<div class="col-sm-4">
+	<input type="date" class="form-control" id="date"> 
+	</div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-8">
+    	<label>
+    	请谨慎认真填写，凡出现偏差，多加几分倒扣几分
+		</label>
+	</div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-8">
+    
+      <button type="submit" class="btn btn-default">确认提交</button>
+    </div>
+  </div>
+</form>
+
+<span class="helpBolck"> 
+<p> 示例:
+</p>
+<p> 正赛-10-黄金联赛-寒门不难出贵子-2020/1/1<p>
+ 	<p>场务-5-第二届新型城镇化-下午第二场-2020/4/1</p>
+<span>
+
+<script language="javascript">
+	function $(obj)
+	{
+		return document.getElementById(obj);
+	}
+	
+	function for_zs()
+	{
+		$("f-score").innerHTML = "10";
+		$("f-name").innerHTML = "赛事名称";
+		$("f-detail").innerHTML = "辩题<sub>(含持方)</sub>";
+		$("f-date").innerHTML = "比赛日期";
+	}
+	 
+	function change()
+	{
+		var cho = $("kind").value;
+		
+		$("def").style.display='none';
+		
+		for_zs();
+		if(cho == "mb")
+		{
+			$("f-score").innerHTML = "5";
+			$("f-date").innerHTML = "日期<sub>(正赛日期或开始讨论日期均可，统一就好)</sub>";
+		}
+		if(cho == "bys")
+			$("f-score").innerHTML = "8";
+		if(cho == "cw")
+		{
+			$("f-score").innerHTML = "5";
+			$("f-detail").innerHTML = "具体场次";
+		}
+		if(cho == "other")
+		{
+			$("f-score").innerHTML = "请提交后联系队长/副队后台填写分数";
+			$("f-name").innerHTML = "事由";
+			$("f-detail").innerHTML = "细节";
+			$("f-date").innerHTML = "日期";
+			
+		}
+		
+		
+	}
+	
+	$("kind").onchange=change;
+</script>
+<hr>
+
+
+</div>
+
+</html>
