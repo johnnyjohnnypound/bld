@@ -1,4 +1,6 @@
+#coding:utf-8
 from django.shortcuts import render
+from django.http import HttpResponseRedirect,HttpResponse
 from .models import record
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -48,4 +50,40 @@ def add(request):
     
     nam = request.user.first_name 
     un  = request.user.username
+    
+    if request.POST:
+        kind = request.POST['kind']
+        title = request.POST['title']
+        detail = request.POST['detail']
+        date = request.POST['date']
+         
+        if not (kind and title and detail and date):
+            return HttpResponse("信息不全，罚你重填")
+
+        score = {
+                'zs':10,
+                'mb':5,
+                'bys':8,
+                'cw':5,
+                'other':0
+                }
+        kk = {
+                'zs':"正赛",
+                'mb':"模辩",
+                'bys':"表演赛",
+                'cw':"场务",
+                'other':"待填写"
+            }
+
+        rc = record(
+                kind = kk[kind],
+                name = title,
+                detail = detail,
+                who = un,
+                when = date,
+                soc = score[kind]
+                )
+        rc.save();
+        return HttpResponseRedirect("/score/")
+
     return render(request,'score/add.html',{'name':nam,'un':un})
