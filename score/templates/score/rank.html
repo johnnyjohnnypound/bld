@@ -1,18 +1,20 @@
 
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta content="IE=10.000" http-equiv="X-UA-Compatible">
-<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
-
-<title>积分榜</title>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>积分榜-清华大学辩论队积分系统</title>
 
 <style>
 
-td{border-bottom:1px solid #efefef;text-align:center;}
 
 body {
-	background-color:black;
+	background-color:rgb(50,50,50);
+	font-size:200%;
 }
 
 .user-info {
@@ -31,7 +33,7 @@ body {
 
 <div class="user-info" >
 {% if name %}
-你好 {{name}}({{un}}) [<a href="/accounts/logout/">登出</a>]
+你好 {{name}} [<a href="/accounts/logout/">登出</a>]
 {% else %}
  [<a href="/accounts/login/">登录</a>]
 {% endif %}
@@ -40,25 +42,49 @@ body {
 
 
 
-<div style="background-color:rgba(230,250,230,0.95);margin:2% 7% 0 7%;">
+<div style="max-width:700px;" class="container">
+<div style="background-color:rgba(230,250,230,0.95);margin:0 2%">
 
 <div align='center' style='background-color:rgba(180,210,180,0.8);padding:1px;color:#ffffff;'>
-<h3 align='center'>排行</h3></div>
+<h1 align='center'>排行</h1>
+
+<div class="dropdown"align="left">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    更多信息
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="/score/list/">完整积分表</a></li>
+    <li><a href="/score/list/?type=正赛">赛事表(只含正赛)</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="/score/users/">队员名单及通讯录</a></li>
+  </ul>
+
+<a  class="btn btn-primary" style="float:right;" href="/score/add/"> 上传积分记录 </a>
+</div>
+</div>
 
 
-<table border='1' cellpadding='7' cellspacing='0' width='100%' align='center'><tbody>
-<tr><td><b>排名</b></td><td ><b>姓名</b></td><td ><b>得分</b></td></tr>
+<table class="table table-hover table-bordered">
+<tbody>
+	<tr><td><b>排名</b></td><td ><b>姓名</b><br><sup>(点击人名查看详情)</sup></td><td ><b>得分</b></td></tr>
 
 {% for p in list %}
-<tr style="color:{{p.col}}"> <td>{{forloop.counter}}</td> <td>{{p.name}}</td> <td>{{p.sum}}</td> </tr>
+<tr style="color:{{p.col}}"> 
+	<td>{{forloop.counter}}</td> 
+	<td><a href="user/{{p.un}}/" style="color:{{p.col}}">{{p.name}}</a></td> 
+	<td>{{p.sum}}</td> 
+</tr>
 {% endfor %}
 
 
 
-</tbody></table>
+</tbody>
+</table>
 
 </div>
 
-<h2><a href="/score/add/"> 新增 </a><h2>
+</div>
 
-</body></html>
+</body>
+</html>
