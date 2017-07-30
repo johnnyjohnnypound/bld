@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<title>添加积分-清华大学辩论队</title>
+<title>添加积分-清华大学辩论队积分系统</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
@@ -13,7 +13,7 @@
 	background-color:rgba(225,225,225,0.7);
 	padding:0 0.5em" >
 {% if name %}
-你好 {{name}}({{un}}) [<a href="/accounts/logout/">登出</a>]
+你好 {{name}} [<a href="/accounts/logout/">登出</a>]
 {% else %}
  [<a href="/accounts/login/">登录</a>]
 {% endif %}
@@ -80,7 +80,7 @@
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-8">
     	<label>
-			<i>请谨慎认真填写，凡出现偏差，多加几分倒扣几分</i>
+			<i>请谨慎认真填写，凡出现偏差，三倍倒扣</i>
 		</label>
 	</div>
 </div>
@@ -88,7 +88,7 @@
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-8">
     
-      <button type="submit" class="btn btn-default">确认提交</button>
+      <button type="submit" class="btn btn-default disabled" id="btn">确认提交</button>
     </div>
   </div>
 </form>
@@ -119,6 +119,7 @@
 		var cho = $("kind").value;
 		
 		$("def").style.display='none';
+		$("btn").className = 'btn btn-default';
 		
 		for_zs();
 		if(cho == "mb")

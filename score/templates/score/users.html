@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>通讯录-清华大学辩论队</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div style="position:fixed;
+	right:5pt;top:0;
+	font-size:11pt;
+	color:black;
+	background-color:rgba(225,225,225,0.7);
+	padding:0 0.5em" >
+{% if name %}
+你好 {{name}} [<a href="/accounts/logout/">登出</a>]
+{% else %}
+ [<a href="/accounts/login/">登录</a>]
+{% endif %}
+ [<a href="/">回主页</a>]
+ </div>
+
+<div style="max-width:700px;" class="container">
+	<h1> 通讯录 </h1>
+	<table class="table table-hover table-bordered">
+		<tbody>
+		<tr>
+			<td><b>年级</b></td>
+			<td><b>姓名</b></td>
+			<td><b>院系</b></td>
+			<td><b>联系方式</b></td>
+			<td><b>类别</b></td>
+		</tr>
+		{%for p in us%}
+		<tr>
+			<td>{{p.gra}}</td>
+			<td><a  href="/score/user/{{p.un}}">{{p.nam}}</a></td>
+			<td>{{p.fac}}</td>
+			<td>{{p.pho}}</td>
+			<td>{{p.ty}}</b></td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	
+	<hr/>
+	<hr/>
+	
+</div>
+
+<body>
