@@ -39,13 +39,20 @@
 	<label class="col-sm-2 control-label"> 类型 </label>
 	<div class="col-sm-4">
 	<select class="form-control" id="kind" name="kind">
-	  	<option secleted="secleted" id="def">-- 请选择 --</option>
+	  	<option secleted="secleted" id="def" value="0">-- 请选择 --</option>
+
+{% load extra %}
+		{%for k in k_list %}
+		<option value="{{k}}">{{kk|kv:k}}</option>
+		{% endfor %}
+<!--
 	  	<option value="zs">正赛</option>
 	  	<option value="mb">模辩</option>
 	  	<option value="bys">表演赛</option>
 	  	<option value="cw">场务</option>
 	  	<option value="other">其他</option>
-	</select>
+-->
+		</select>
 	</div>
 </div>
 
@@ -101,14 +108,16 @@
 <span>
 
 <script language="javascript">
+	var sss = {{ss|safe}};
 	function $(obj)
 	{
 		return document.getElementById(obj);
 	}
-	
-	function for_zs()
+
+	if( $('kind').value != "0" )
+		change();
+	function base()
 	{
-		$("f-score").innerHTML = "10";
 		$("f-name").innerHTML = "赛事名称";
 		$("f-detail").innerHTML = "辩题<sub>(含持方)</sub>";
 		$("f-date").innerHTML = "比赛日期";
@@ -120,19 +129,22 @@
 		
 		$("def").style.display='none';
 		$("btn").className = 'btn btn-default';
+
+		$("f-score").innerHTML = sss[cho];
 		
-		for_zs();
+		base();
 		if(cho == "mb")
 		{
-			$("f-score").innerHTML = "5";
-			$("f-date").innerHTML = "日期<sub>(正赛日期或开始讨论日期均可，统一就好)</sub>";
+			$("f-date").innerHTML = "日期<sub>(模辩日期)</sub>";
 		}
-		if(cho == "bys")
-			$("f-score").innerHTML = "8";
-		if(cho == "cw")
+		if(cho == "cw" || cho == "out")
 		{
-			$("f-score").innerHTML = "5";
-			$("f-detail").innerHTML = "具体场次";
+			$("f-detail").innerHTML = "场次、辩题";
+		}
+		if(cho == "pw")
+		{
+			$("f-name").innerHTML = "院系";
+			$("f-detail").innerHTML = "辩题、场次";
 		}
 		if(cho == "other")
 		{

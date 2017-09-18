@@ -53,6 +53,31 @@ def add(request):
     nam = request.user.first_name 
     un  = request.user.username
     
+    score = {
+                'zs':10,
+                'win':5,
+                'best':3,
+                'mb':5,
+                'bys':8,
+                'pw':2,
+                'cw':5,
+                'out':5,
+                'other':0
+                }
+    kk = {
+                'zs':"正赛",
+                'win':"正赛胜利",
+                'best':"最佳辩手",
+                'mb':"模辩",
+                'bys':"表演赛",
+                'pw':"新生赛评委",
+                'cw':"场务",
+                'out':"外派",
+                'other':"待填写"
+            }
+       
+    k_list = ['zs','win','best','mb','bys','pw','cw','out','other']
+
     if request.POST:
         kind = request.POST['kind']
         title = request.POST['title']
@@ -60,21 +85,6 @@ def add(request):
         date = request.POST['date']
          
 
-        score = {
-                'zs':10,
-                'mb':5,
-                'bys':8,
-                'cw':5,
-                'other':0
-                }
-        kk = {
-                'zs':"正赛",
-                'mb':"模辩",
-                'bys':"表演赛",
-                'cw':"场务",
-                'other':"待填写"
-            }
-        
         if kind not in kk or not (kind and title and detail and date):
             return HttpResponse("<h1>信息不全，返回重填</h1>")
 
@@ -89,7 +99,13 @@ def add(request):
         rc.save();
         return HttpResponseRedirect("/score/")
 
-    return render(request,'score/add.html',{'name':nam,'un':un})
+    return render(request,'score/add.html',{
+        'name':nam,
+        'un':un,
+        'k_list':k_list,
+        'kk':kk,
+        'ss':score
+        })
 
 
 @login_required
