@@ -45,14 +45,20 @@
 		{%for k in k_list %}
 		<option value="{{k}}">{{kk|kv:k}}</option>
 		{% endfor %}
-<!--
-	  	<option value="zs">正赛</option>
-	  	<option value="mb">模辩</option>
-	  	<option value="bys">表演赛</option>
-	  	<option value="cw">场务</option>
-	  	<option value="other">其他</option>
--->
+
 		</select>
+	</div>
+</div>
+
+<div class="form-group" id="more-info" style="display:none">
+<label class="col-sm-2 control-label">  </label>
+	<div class="checkbox col-sm-8">
+	<label class="checkbox-inline">
+  		<input type="checkbox" name="win" id="win" value="win"> 胜利
+	</label>
+	<label class="checkbox-inline">
+  		<input type="checkbox" name="best" id="best" value="best"> 最佳辩手
+	</label>
 	</div>
 </div>
 
@@ -109,6 +115,7 @@
 
 <script language="javascript">
 	var sss = {{ss|safe}};
+	var score = 0;
 	function $(obj)
 	{
 		return document.getElementById(obj);
@@ -116,6 +123,11 @@
 
 	if( $('kind').value != "0" )
 		change();
+		
+	$("kind").onchange=change;
+	$("win").onchange=change;
+	$("best").onchange=change;
+	
 	function base()
 	{
 		$("f-name").innerHTML = "赛事名称";
@@ -130,9 +142,22 @@
 		$("def").style.display='none';
 		$("btn").className = 'btn btn-default';
 
-		$("f-score").innerHTML = sss[cho];
+		score = sss[cho];
 		
 		base();
+		if(cho == "zs")
+		{
+			$("more-info").style.display='block';
+			if($("win").checked)
+				score += 5;
+			if($("best").checked)
+				score += 3;
+		}
+		else
+			$("more-info").style.display='none';
+		
+		$("f-score").innerHTML = score;
+
 		if(cho == "mb")
 		{
 			$("f-date").innerHTML = "日期<sub>(模辩日期)</sub>";
@@ -158,7 +183,6 @@
 		
 	}
 	
-	$("kind").onchange=change;
 </script>
 <hr>
 
