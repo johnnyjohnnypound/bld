@@ -58,6 +58,11 @@ body {
     <li><a href="/score/list/?type=正赛">赛事表(只含正赛)</a></li>
     <li role="separator" class="divider"></li>
     <li><a href="/score/users/">队员名单及通讯录</a></li>
+   
+	{% if is_staff %}
+	<li role="separator" class="divider"></li>
+    <li><a href="/score/addGroup/">添加集体积分</a></li>
+	{% endif %}
   </ul>
 
 <a  class="btn btn-primary" style="float:right;" href="/score/add/"> 上传积分记录 </a>
