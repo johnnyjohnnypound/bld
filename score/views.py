@@ -5,7 +5,6 @@ from .models import record
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from django.db.models import Q
 from operator import itemgetter
 from re import findall,IGNORECASE
 import os
@@ -64,8 +63,6 @@ def add(request):
     
     score = {
                 'zs':10,
-                'win':5,
-                'best':3,
                 'mb':5,
                 'bys':8,
                 'pw':2,
@@ -75,8 +72,6 @@ def add(request):
                 }
     kk = {
                 'zs':"正赛",
-                'win':"正赛胜利",
-                'best':"最佳辩手",
                 'mb':"模辩",
                 'bys':"表演赛",
                 'pw':"新生赛评委",
@@ -85,17 +80,25 @@ def add(request):
                 'other':"待填写"
             }
        
-    k_list = ['zs','win','best','mb','bys','pw','cw','out','other']
+    k_list = ['zs','mb','bys','pw','cw','out','other']
 
     if request.POST:
         kind = request.POST['kind']
         title = request.POST['title']
         detail = request.POST['detail']
         date = request.POST['date']
-         
+        
+        print request.POST
 
         if kind not in kk or not (kind and title and detail and date):
             return HttpResponse("<h1>信息不全，返回重填</h1>")
+
+        sco = score[kind]
+        if kind == 'zs':
+            if 'win' in request.POST:
+                sco += 5
+            if 'best' in request.POST:
+                sco += 3
 
         rc = record(
                 kind = kk[kind],
@@ -103,7 +106,7 @@ def add(request):
                 detail = detail,
                 who = un,
                 when = date,
-                soc = score[kind]
+                soc = sco
                 )
         rc.save();
         return HttpResponseRedirect("/score/")
