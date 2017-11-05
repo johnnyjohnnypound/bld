@@ -69,7 +69,7 @@
 <div class="form-group">
 	<label class="col-sm-2 control-label" id="f-name"> 名称 </label>
 	<div class="col-sm-8">
-	<input type="text" class="form-control" id="title" list="title_list" name="title"> 
+	<input type="text" class="form-control" id="title"  name="title"> 
 		<datalist id="title_list">
 			{% for s in old_name %}
 			<option value="{{s}}"> 
@@ -81,8 +81,8 @@
 <div class="form-group">
 	<label class="col-sm-2 control-label" id="f-detail"> 细节 </label>
 	<div class="col-sm-8">
-	<input type="text" class="form-control" id="detail" list="detail_list" name="detail">
-		<datalist id="detail_list">
+	<input type="text" class="form-control" id="detail" name="detail">
+		<datalist id="detail_list" >
 			{% for s in old_detail %}
 			<option value="{{s}}"> 
 			{% endfor %}
@@ -113,12 +113,12 @@
   </div>
 </form>
 
-<span class="helpBolck"> 
+<span class="helpBolck" id="help"> 
 <p> 示例:
 </p>
 <p> 正赛 10 黄金联赛 寒门难/不难出贵子(反) 2020-1-1<p>
  	<p>场务 5 第二届新型城镇化 下午 2020-4-1</p>
-<span>
+</span>
 
 <script language="javascript">
 	var sss = {{ss|safe}};
@@ -139,6 +139,10 @@
 	{
 		$("f-name").innerHTML = "赛事名称";
 		$("f-detail").innerHTML = "辩题<sub>(含持方)</sub>";
+		
+		$("detail").setAttribute('list', '');		
+		$("title").setAttribute('list', '');
+		
 		$("f-date").innerHTML = "比赛日期";
 	}
 	 
@@ -152,6 +156,13 @@
 		score = sss[cho];
 		
 		base();
+		
+		if(cho == "zs" || cho == 'mb' || cho == 'bys')
+		{
+			$("title").setAttribute('list', 'title_list');
+			$("detail").setAttribute('list', 'detail_list');
+		}
+		
 		if(cho == "zs")
 		{
 			$("more-info").style.display='block';
