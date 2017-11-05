@@ -113,13 +113,25 @@ def add(request):
                 )
         rc.save();
         return HttpResponseRedirect("/score/")
+    
+    old_name = set([r.name
+            for r in record.objects.all()
+            if r.kind in '正赛表演赛模辩论' 
+            ])
+    
+    old_detail = set([r.detail
+            for r in record.objects.all()
+            if r.kind in '正赛表演赛模辩论' 
+            ])
 
     return render(request,'score/add.html',{
         'name':nam,
         'un':un,
         'k_list':k_list,
         'kk':kk,
-        'ss':score
+        'ss':score,
+        'old_name':old_name,
+        'old_detail':old_detail
         })
 
 @staff_member_required
