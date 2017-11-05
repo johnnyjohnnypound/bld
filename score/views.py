@@ -32,10 +32,14 @@ def index(request):
                     col = 'red'
                 else:
                     col = 'green'
+            
+            name = man.first_name
+            if not request.user.is_authenticated:
+                name = name[0:1] + ' *' * (len(name)-1)
 
             lis.append({
                     'un' : man.username,
-                    'name':man.first_name,
+                    'name':name,
                     'sum': s,
                     'col': col
                 })
@@ -88,7 +92,6 @@ def add(request):
         detail = request.POST['detail']
         date = request.POST['date']
         
-        print request.POST
 
         if kind not in kk or not (kind and title and detail and date):
             return HttpResponse("<h1>信息不全，返回重填</h1>")
@@ -125,11 +128,8 @@ def addGroup(request):
     un  = request.user.username
 
     if request.POST:
-        print request.POST
         s = "#"
-        print request.POST.getlist('values',[])
         for p in request.POST.getlist('values',[]):
-            print p
             s = s + p + '#'
         rc = record(
                 kind = '#',
@@ -143,7 +143,7 @@ def addGroup(request):
 
         return  HttpResponseRedirect("/score/")
     
-    members = User.objects.exclude(username='hiddenadmin').order_by('email');
+    members = User.objects.exclude(username='hiddenadmin').order_by('username');
     
     return render(request,'score/addGroup.html',{
         'members':members,
@@ -227,10 +227,8 @@ def us(request):
 def getWho(s):
     if s[0]== '#':
         names = s[1:-1].split('#')
-        print names
         ans = ''
         for name in names:
-            print name
             ans = ans + ' ' + User.objects.get(username = name).first_name
         return ans[1:]
     else:
@@ -248,11 +246,12 @@ def list(request):
 
     nam = request.user.first_name 
     if 'type' in request.GET:
-        lis = record.objects.filter(kind=request.GET['type'])
+        kf = request.GET['type']
     else:
-        lis = record.objects.all()
+        kf = ''
+    lis = record.objects.all() 
 
-    lis = lis.order_by('when')
+    lis = lis.order_by('when','kind','name','detail')
 
     l = [{
             'when':x.when,
@@ -262,6 +261,6 @@ def list(request):
             'name':x.name,
             'detail':x.detail,
             'soc':x.soc
-        } for x in lis]
+        } for x in lis if (kf in x.kind or x.kind in kf)]
 
     return render(request,'score/list.html',{'l':l,'name':nam})
