@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 
+<body>
 <div style="position:fixed;
 	right:5pt;top:0;
 	font-size:11pt;
@@ -26,7 +27,7 @@
 <h1> 添加积分记录 </h1>
 <hr>
 
-<form class="form-horizontal" method="POST"  action="" autocomplete="off">
+<form class="form-horizontal" method="POST"  action="" autocomplete="on">
 {% csrf_token %}
 <div class="form-group">
     <label class="col-sm-2 control-label">姓名</label>
@@ -206,5 +207,6 @@
 
 
 </div>
+</body>
 
 </html>

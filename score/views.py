@@ -56,7 +56,8 @@ def index(request):
         'list':lis,
         'name':nam,
         'un':un,
-        'is_staff':request.user.is_staff
+        'is_staff':request.user.is_staff,
+        'is_login':request.user.is_authenticated
         })
 
 @login_required

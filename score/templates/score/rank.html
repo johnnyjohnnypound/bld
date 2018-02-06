@@ -11,7 +11,6 @@
 
 <style>
 
-
 body {
 	background-color:rgb(50,50,50);
 	font-size:200%;
@@ -26,6 +25,49 @@ body {
 	background-color:rgba(225,225,225,0.7);
 	padding:0 0.5em
 }
+
+.dropdown-submenu  { 
+	position:relative;
+}
+.dropdown-submenu > .dropdown-menu { 
+	top:0;
+	left:100%;
+	margin-top:-6px;
+	margin-left:-1px;
+	-webkit-border-radius:0 6px 6px 6px;
+	-moz-border-radius:0 6px 6px 6px;
+	border-radius:0 6px 6px 6px;
+}
+.dropdown-submenu:hover > .dropdown-menu { 
+	display:block;
+}
+.dropdown-submenu > a:after { 
+	display:block;
+	content:" ";
+	float:right;
+	width:0;
+	height:0;
+	border-color:transparent;
+	border-style:solid;
+	border-width:5px 0 5px 5px;
+	border-left-color:#2b2b2b;
+	margin-top:5px;
+	margin-right:-10px;
+}
+.dropdown-submenu:hover > a:after { 
+	border-left-color:#ffffff;
+}
+.dropdown-submenu.pull-left { 
+	float:none;
+}
+.dropdown-submenu.pull-left > .dropdown-menu { 
+	left:-100%;
+	margin-left:10px;
+	-webkit-border-radius:6px 0 6px 6px;
+	-moz-border-radius:6px 0 6px 6px;
+	border-radius:6px 0 6px 6px;
+}
+
 </style>
 
 </head>
@@ -46,18 +88,35 @@ body {
 <div style="background-color:rgba(230,250,230,0.95);margin:0 2%">
 
 <div align='center' style='background-color:rgba(180,210,180,0.8);padding:1px;color:#ffffff;'>
-<h1 align='center'>排行</h1>
+<h5 align='center' style='color:#555555;'> 清华大学辩论队 </h5>
+<h1 align='center'>积分排行</h1>
 
 <div class="dropdown"align="left">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     更多信息
     <span class="caret"></span>
   </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
     <li><a href="/score/list/">完整积分表</a></li>
     <li><a href="/score/list/?type=正赛">赛事表(只含正赛)</a></li>
-    <li role="separator" class="divider"></li>
+    
+	<li role="separator" class="divider"></li>
     <li><a href="/score/users/">队员名单及通讯录</a></li>
+   
+	<li role="separator" class="divider"></li>
+	{% if is_login %}
+	<li class="dropdown-submenu">
+		<a tabindex="-1" href="#">内部服务</a>
+		<ul class="dropdown-menu">
+			<li><a href="https://team.thubx.com:9009">谷歌</a></li>
+			<li><a href="https://team.thubx.com:8009">谷歌学术</a></li>
+			<li><a href="https://team.thubx.com:7009">YouTube(暂时不可播放)</a></li>
+			<li><a href="https://team.thubx.com:6009">YouTube手机版(暂时不可播放)</a></li>
+		</ul>
+	</li>
+	{% else %}
+	<li class="disabled"> <a href="/accounts/login/">内部服务</a> </li>
+	{% endif %}
    
 	{% if is_staff %}
 	<li role="separator" class="divider"></li>
@@ -90,6 +149,5 @@ body {
 </div>
 
 </div>
-
 </body>
 </html>

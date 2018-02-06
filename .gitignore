@@ -1,4 +1,5 @@
 staticfiles/
+media/
 uwsgi_params
 db.sqlite3
 # Byte-compiled / optimized / DLL files
