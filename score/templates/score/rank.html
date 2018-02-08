@@ -91,6 +91,28 @@ body {
 <h5 align='center' style='color:#555555;'> 清华大学辩论队 </h5>
 <h1 align='center'>积分排行</h1>
 
+<select class="form-control" id="sem" style="font-size:50%;max-width:7.5em;">
+	{% for sem in sems %}
+	<option value="{{sem.id}}" 
+		{% if sem.curr %} selected="selected"{% endif %} >
+		{{sem.name}}
+	</option>
+	{% endfor %}
+</select>
+
+<script language="javascript">
+	function $(obj)
+	{
+		return document.getElementById(obj);
+	}
+	$("sem").onchange=setSem;
+	function setSem()
+	{
+		window.location.href = window.location.origin + window.location.pathname + "?sem=" + $("sem").value;
+
+	}
+</script>
+
 <div class="dropdown"align="left">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     更多信息

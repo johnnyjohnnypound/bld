@@ -1,7 +1,7 @@
 #coding:utf-8
 from django.shortcuts import render
 from django.http import HttpResponseRedirect,HttpResponse
-from .models import record
+from .models import Record,Semester
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -13,17 +13,26 @@ def index(request):
     members = User.objects.all()
     line = int(User.objects.get(username='hiddenadmin').last_name)
 
+    sem_id = int(request.GET.get('sem', Semester.objects.get(current=True).id))
+    sems = []
+    for sem in Semester.objects.all():
+        sems.append({
+            'id': sem.id,
+            'name':sem.name,
+            'curr':sem.id == sem_id
+            })
+
     lis = []
 
     for man in members:
-        #rs = record.objects.filter(who=man.username)
-        rs = record.objects.all();
+        #rs = Record.objects.filter(who=man.username)
+        rs = Record.objects.filter(sem=sem_id);
         s = 0
         for r in rs:
             if(r.who == man.username) or (('#'+man.username+'#') in r.who):
                 s += r.soc
 
-        if (s>0) or (man.email[0]=='0'):
+        if (s>0) or (man.email[0]=='0' and sem_id==Semester.objects.get(current=True).id):
             #print man.first_name
             if man.email[0] !='0':
                 col = 'black'
@@ -53,6 +62,7 @@ def index(request):
             un = ''
 
     return render(request,'score/rank.html',{
+        'sems':sems,
         'list':lis,
         'name':nam,
         'un':un,
@@ -104,24 +114,25 @@ def add(request):
             if 'best' in request.POST:
                 sco += 3
 
-        rc = record(
+        rc = Record(
                 kind = kk[kind],
                 name = title,
                 detail = detail,
                 who = un,
                 when = date,
-                soc = sco
+                soc = sco,
+                sem = Semester.objects.get(current=True).id
                 )
         rc.save();
         return HttpResponseRedirect("/score/")
     
     old_name = set([r.name
-            for r in record.objects.all()
+            for r in Record.objects.all()
             if r.kind in '正赛表演赛模辩论' 
             ])
     
     old_detail = set([r.detail
-            for r in record.objects.all()
+            for r in Record.objects.all()
             if r.kind in '正赛表演赛模辩论' 
             ])
 
@@ -144,13 +155,14 @@ def addGroup(request):
         s = "#"
         for p in request.POST.getlist('values',[]):
             s = s + p + '#'
-        rc = record(
+        rc = Record(
                 kind = '#',
                 name = request.POST['title'],
                 detail = (u'记录人: ' + nam).encode('utf-8'),
                 who = s,
                 when = request.POST['date'],
-                soc = int(request.POST['score'])
+                soc = int(request.POST['score']),
+                sem = Semester.objects.get(current=True).id
                 )
         rc.save();
 
@@ -171,7 +183,7 @@ def ud(request,cun):
     except:
         return HttpResponse(cun)
 
-    ar1 = record.objects.order_by("when")
+    ar1 = Record.objects.order_by("when")
     nam = request.user.first_name 
     
     ar = []
@@ -262,7 +274,7 @@ def list(request):
         kf = request.GET['type']
     else:
         kf = ''
-    lis = record.objects.all() 
+    lis = Record.objects.all() 
 
     lis = lis.order_by('when','kind','name','detail')
 
