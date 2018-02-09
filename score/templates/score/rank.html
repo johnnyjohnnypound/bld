@@ -91,7 +91,7 @@ body {
 <h5 align='center' style='color:#555555;'> 清华大学辩论队 </h5>
 <h1 align='center'>积分排行</h1>
 
-<select class="form-control" id="sem" style="font-size:50%;max-width:7.5em;">
+<select class="form-control" id="sem" style="font-size:50%;max-width:8.5em;">
 	{% for sem in sems %}
 	<option value="{{sem.id}}" 
 		{% if sem.curr %} selected="selected"{% endif %} >
@@ -171,5 +171,12 @@ body {
 </div>
 
 </div>
+
+
+<footer style="background-color:#66aaff;">
+	<div class="container" style="font-size:80%;text-align:right;padding:0.7em 0 0 0;">
+		<span style="text-align:right;">本站代码<a href="https://github.com/OmmyZhang/bld">开源</a>,欢迎监督</span>
+	</div>
+</footer>
 </body>
 </html>
