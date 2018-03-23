@@ -91,7 +91,7 @@ body {
 <h5 align='center' style='color:#555555;'> 清华大学辩论队 </h5>
 <h1 align='center'>积分排行</h1>
 
-<select class="form-control" id="sem" style="font-size:50%;max-width:8.5em;">
+<select class="form-control" id="sem" style="font-size:50%;max-width:8.5em;background-color:rgba(0,0,0,0)">
 	{% for sem in sems %}
 	<option value="{{sem.id}}" 
 		{% if sem.curr %} selected="selected"{% endif %} >
@@ -115,7 +115,7 @@ body {
 
 <div class="dropdown"align="left">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    更多信息
+    更多
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -126,14 +126,16 @@ body {
     <li><a href="/score/users/">队员名单及通讯录</a></li>
    
 	<li role="separator" class="divider"></li>
+    <li><a href="/static/tudebate.apk">APP下载(安卓)</a></li>
+
+	<li role="separator" class="divider"></li>
 	{% if is_login %}
 	<li class="dropdown-submenu">
 		<a tabindex="-1" href="#">内部服务</a>
 		<ul class="dropdown-menu">
-			<li><a href="https://team.thubx.com:9009">谷歌</a></li>
-			<li><a href="https://team.thubx.com:8009">谷歌学术</a></li>
-			<li><a href="https://team.thubx.com:7009">YouTube(暂时不可播放)</a></li>
-			<li><a href="https://team.thubx.com:6009">YouTube手机版(暂时不可播放)</a></li>
+			<li><a href="https://team.thubx.com:9009">谷狗</a></li>
+			<li><a href="https://team.thubx.com:8009">谷狗穴鼠</a></li>
+			<li><a href="https://team.thubx.com:7009">优兔网</a></li>
 		</ul>
 	</li>
 	{% else %}
@@ -146,7 +148,7 @@ body {
 	{% endif %}
   </ul>
 
-<a  class="btn btn-primary" style="float:right;" href="/score/add/"> 上传积分记录 </a>
+<a  class="btn btn-primary" style="float:right;" href="/score/add/"> 上传积分 </a>
 </div>
 </div>
 
