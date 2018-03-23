@@ -132,7 +132,7 @@ def add(request):
             ])
     
     old_detail = set([r.detail
-            for r in Record.objects.all()
+            for r in Record.objects.filter(sem=Semester.objects.get(current=True).id)
             if r.kind in '正赛表演赛模辩论' 
             ])
 
