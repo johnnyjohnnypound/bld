@@ -13,7 +13,9 @@ def index(request):
     members = User.objects.all()
     line = int(User.objects.get(username='hiddenadmin').last_name)
 
-    sem_id = int(request.GET.get('sem', Semester.objects.get(current=True).id))
+    cur_sem_id = Semester.objects.get(current=True).id
+    sem_id = int(request.GET.get('sem',cur_sem_id)) 
+    
     sems = []
     for sem in Semester.objects.all():
         sems.append({
@@ -25,14 +27,15 @@ def index(request):
     lis = []
 
     for man in members:
-        #rs = Record.objects.filter(who=man.username)
+        if man.email[0]=='5' and sem_id==cur_sem_id:
+            continue
         rs = Record.objects.filter(sem=sem_id);
         s = 0
         for r in rs:
             if(r.who == man.username) or (('#'+man.username+'#') in r.who):
                 s += r.soc
 
-        if (s>0) or (man.email[0]=='0' and sem_id==Semester.objects.get(current=True).id):
+        if (s>0) or (man.email[0]=='0' and sem_id==cur_sem_id):
             #print man.first_name
             if man.email[0] !='0':
                 col = 'black'
@@ -235,6 +238,8 @@ def us(request):
             ty = '正式队员'
         elif p.email[0] == '2':
             ty = '退役老兵'
+        elif p.email[0] == '5':
+            ty = '正式队员.'
 
         if ty:
             us.append({
