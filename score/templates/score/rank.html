@@ -1,15 +1,15 @@
 
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>积分榜-清华大学辩论队积分系统</title>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<title>积分榜-清华大学辩论队积分系统</title>
 
-<style>
+		<style>
 
 body {
 	background-color:rgb(50,50,50);
@@ -68,117 +68,123 @@ body {
 	border-radius:6px 0 6px 6px;
 }
 
-</style>
+		</style>
 
-</head>
-<body>
+	</head>
+	<body>
 
-<div class="user-info" >
-{% if name %}
-你好 {{name}} [<a href="/accounts/logout/">登出</a>]
-{% else %}
- [<a href="/accounts/login/">登录</a>]
-{% endif %}
- [<a href="/">回主页</a>]
-</div>
+		<div class="user-info" >
+			{% if name %}
+			你好 {{name}} [<a href="/accounts/logout/">登出</a>]
+			{% else %}
+			[<a href="/accounts/login/">登录</a>]
+			{% endif %}
+			[<a href="/">回主页</a>]
+		</div>
 
 
 
-<div style="max-width:700px;" class="container">
-<div style="background-color:rgba(230,250,230,0.95);margin:0 2%">
+		<div style="max-width:700px;" class="container">
+			<div style="background-color:rgba(230,250,230,0.95);margin:0 2%">
 
-<div align='center' style='background-color:rgba(180,210,180,0.8);padding:1px;color:#ffffff;'>
-<h5 align='center' style='color:#555555;'> 清华大学辩论队 </h5>
-<h1 align='center'>积分排行</h1>
+				<div align='center' style='background-color:rgba(180,210,180,0.8);padding:1px;color:#ffffff;'>
+					<h5 align='center' style='color:#555555;'> 清华大学辩论队 </h5>
+					<h1 align='center'>积分排行</h1>
 
-<select class="form-control" id="sem" style="font-size:50%;max-width:8.5em;background-color:rgba(0,0,0,0)">
-	{% for sem in sems %}
-	<option value="{{sem.id}}" 
-		{% if sem.curr %} selected="selected"{% endif %} >
-		{{sem.name}}
-	</option>
-	{% endfor %}
-</select>
+					<select class="form-control" id="sem" style="font-size:50%;max-width:8.5em;background-color:rgba(0,0,0,0)">
+						{% for sem in sems %}
+						<option value="{{sem.id}}" 
+			  {% if sem.curr %} selected="selected"{% endif %} >
+			  {{sem.name}}
+						</option>
+						{% endfor %}
+					</select>
 
 <script language="javascript">
-	function $(obj)
-	{
-		return document.getElementById(obj);
-	}
-	$("sem").onchange=setSem;
-	function setSem()
-	{
-		window.location.href = window.location.origin + window.location.pathname + "?sem=" + $("sem").value;
+function $(obj)
+{
+	return document.getElementById(obj);
+}
+$("sem").onchange=setSem;
+function setSem()
+{
+	window.location.href = window.location.origin + window.location.pathname + "?sem=" + $("sem").value;
 
-	}
+}
+
+function go_port(p)
+{
+	window.location.href = window.location.protocol + "//" + document.domain + ":" + p;
+}
 </script>
 
-<div class="dropdown"align="left">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    更多
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-    <li><a href="/score/list/">完整积分表</a></li>
-    <li><a href="/score/list/?type=正赛">赛事表(只含正赛)</a></li>
-    
-	<li role="separator" class="divider"></li>
-    <li><a href="/score/users/">队员名单及通讯录</a></li>
-   
-	<li role="separator" class="divider"></li>
-    <li><a href="/static/tudebate.apk">APP下载(安卓)</a></li>
+					<div class="dropdown"align="left">
+						<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							更多
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+							<li><a href="/score/list/">完整积分表</a></li>
+							<li><a href="/score/list/?type=正赛">赛事表(只含正赛)</a></li>
 
-	<li role="separator" class="divider"></li>
-	{% if is_login %}
-	<li class="dropdown-submenu">
-		<a tabindex="-1" href="#">内部服务</a>
-		<ul class="dropdown-menu">
-			<li><a href="https://team.thubx.com:9009">谷狗</a></li>
-			<li><a href="https://team.thubx.com:8009">谷狗穴鼠</a></li>
-			<li><a href="https://team.thubx.com:7009">优兔网</a></li>
-		</ul>
-	</li>
-	{% else %}
-	<li class="disabled"> <a href="/accounts/login/">内部服务</a> </li>
-	{% endif %}
-   
-	{% if is_staff %}
-	<li role="separator" class="divider"></li>
-    <li><a href="/score/addGroup/">添加集体积分</a></li>
-	{% endif %}
-  </ul>
+							<li role="separator" class="divider"></li>
+							<li><a href="/score/users/">队员名单及通讯录</a></li>
 
-<a  class="btn btn-primary" style="float:right;" href="/score/add/"> 上传积分 </a>
-</div>
-</div>
+							<li role="separator" class="divider"></li>
+							<li><a href="/static/tudebate.apk">APP下载(安卓)</a></li>
+
+							<li role="separator" class="divider"></li>
+							{% if is_login %}
+							<li class="dropdown-submenu">
+								<a tabindex="-1" href="#">内部服务</a>
+								<ul class="dropdown-menu">
+									<li><a href="#" onclick="go_port(9009)" >谷狗</a></li>
+									<li><a href="#" onclick="go_port(8009)">谷狗穴鼠</a></li>
+									<li><a href="#" onclick="go_port(7009)">优兔网</a></li>
+								</ul>
+							</li>
+							{% else %}
+							<li class="disabled"> <a href="/accounts/login/">内部服务</a> </li>
+							{% endif %}
+
+							{% if is_staff %}
+							<li role="separator" class="divider"></li>
+							<li><a href="/score/addGroup/">添加集体积分</a></li>
+							{% endif %}
+						</ul>
 
 
-<table class="table table-hover table-bordered">
-<tbody>
-	<tr><td><b>排名</b></td><td ><b>姓名</b><br><sup>(点击人名查看详情)</sup></td><td ><b>得分</b></td></tr>
-
-{% for p in list %}
-<tr style="color:{{p.col}}"> 
-	<td>{{forloop.counter}}</td> 
-	<td><a href="user/{{p.un}}/" style="color:{{p.col}}">{{p.name}}</a></td> 
-	<td>{{p.sum}}</td> 
-</tr>
-{% endfor %}
+						<a  class="btn btn-primary" style="float:right;" href="/score/add/"> 上传积分 </a>
+					</div>
+				</div>
 
 
+				<table class="table table-hover table-bordered">
+					<tbody>
+						<tr><td><b>排名</b></td><td ><b>姓名</b><br><sup>(点击人名查看详情)</sup></td><td ><b>得分</b></td></tr>
 
-</tbody>
-</table>
+						{% for p in list %}
+						<tr style="color:{{p.col}}"> 
+							<td>{{forloop.counter}}</td> 
+							<td><a href="user/{{p.un}}/" style="color:{{p.col}}">{{p.name}}</a></td> 
+							<td>{{p.sum}}</td> 
+						</tr>
+						{% endfor %}
 
-</div>
-
-</div>
 
 
-<footer style="background-color:#66aaff;">
-	<div class="container" style="font-size:80%;text-align:right;padding:0.7em 0 0 0;">
-		<span style="text-align:right;">本站代码<a href="https://github.com/OmmyZhang/bld">开源</a>,欢迎监督</span>
-	</div>
-</footer>
-</body>
+					</tbody>
+				</table>
+
+			</div>
+
+		</div>
+
+
+		<footer style="background-color:#66aaff;">
+			<div class="container" style="font-size:80%;text-align:right;padding:0.7em 0 0 0;">
+				<span style="text-align:right;">本站代码<a href="https://github.com/OmmyZhang/bld">开源</a>,欢迎监督</span>
+			</div>
+		</footer>
+	</body>
 </html>
