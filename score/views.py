@@ -2,7 +2,8 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect,HttpResponse
 from .models import Record,Semester
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from accounts.models import Debater
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from operator import itemgetter
@@ -10,8 +11,11 @@ from re import findall,IGNORECASE
 import os
 
 def index(request):
-    members = User.objects.all()
-    line = int(User.objects.get(username='hiddenadmin').last_name)
+    # members = User.objects.all()
+    # line = int(User.objects.get(username='hiddenadmin').last_name)
+    members = Debater.objects.all()
+    # to be continued
+    line = 5
 
     cur_sem_id = Semester.objects.get(current=True).id
     sem_id = int(request.GET.get('sem',cur_sem_id)) 
@@ -25,11 +29,14 @@ def index(request):
             })
 
     lis = []
+    nam = ''
+    un = ''
 
     for man in members:
-        if man.email[0]=='5' and sem_id==cur_sem_id:
+        # if man.email[0]=='5' and sem_id==cur_sem_id:
+        if sem_id==cur_sem_id:
             continue
-        rs = Record.objects.filter(sem=sem_id);
+        rs = Record.objects.filter(sem=sem_id)
         s = 0
         for r in rs:
             if(r.who == man.username) or (('#'+man.username+'#') in r.who):
@@ -57,12 +64,13 @@ def index(request):
                 })
         lis.sort(key=itemgetter('sum'),reverse=True)
         
+        nam = ''
+        un = ''
+
         if request.user.is_authenticated:
             nam = request.user.first_name 
             un  = request.user.username
-        else:
-            nam = ''
-            un = ''
+        
 
     return render(request,'score/rank.html',{
         'sems':sems,
@@ -126,7 +134,7 @@ def add(request):
                 soc = sco,
                 sem = Semester.objects.get(current=True).id
                 )
-        rc.save();
+        rc.save()
         return HttpResponseRedirect("/score/")
     
     old_name = set([r.name
@@ -167,17 +175,18 @@ def addGroup(request):
                 soc = int(request.POST['score']),
                 sem = Semester.objects.get(current=True).id
                 )
-        rc.save();
+        rc.save()
 
         return  HttpResponseRedirect("/score/")
     
-    members = User.objects.exclude(username='hiddenadmin').order_by('username');
+    # members = User.objects.exclude(username='hiddenadmin').order_by('username');
+    members = Debater.objects.exclude(username='hiddenadmin').order_by('username');
     
     return render(request,'score/addGroup.html',{
         'members':members,
         'name':nam,
         'un':un
-        });
+        })
 
 @login_required
 def ud(request,cun):
@@ -192,7 +201,7 @@ def ud(request,cun):
     ar = []
     for rr in ar1:
         if (rr.who==cun) or (('#'+cun+'#') in rr.who):
-            ar.append(rr);
+            ar.append(rr)
 
 
     pub_art = []

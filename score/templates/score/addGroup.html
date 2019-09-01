@@ -1,89 +1,93 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-<title>添加集体积分-清华大学辩论队积分系统</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<title>添加集体积分-清华大学辩论队积分系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 
 <body>
-<div style="position:fixed;
+	<div style="position:fixed;
 	right:5pt;top:0;
 	font-size:11pt;
 	color:black;
 	background-color:rgba(225,225,225,0.7);
-	padding:0 0.5em" >
-{% if name %}
-你好 {{name}} [<a href="/accounts/logout/">登出</a>]
-{% else %}
- [<a href="/accounts/login/">登录</a>]
-{% endif %}
- [<a href="/">回主页</a>]
-</div>
-
-
-<div class="container" style="max-width:50em;background-color:rgb(240,248,240);">
-
-<h1> 添加集体积分记录 </h1>
-<hr>
-
-<form class="form-horizontal" method="POST"  action="">
-{% csrf_token %}
-
-  
-<div class="form-group">
-	<label class="col-sm-2 control-label" id="f-name"> 名称 </label>
-	<div class="col-sm-8">
-	<input type="text" class="form-control" id="title" name="title"> 
-	</div>
-</div>
-
-<div class="form-group">
-    <label class="col-sm-2 control-label">人员</label>
-    <div class="checkbox col-sm-8">
-    {% for p in members %}
-    <label class="checkbox-inline">
-  		<input type="checkbox" name="values" id="box{{p.username}}" value="{{p.username}}"> {{p.first_name}}
-	</label>
-	{% endfor %}
+	padding:0 0.5em">
+		{% if name %}
+		你好 {{name}} [<a href="/accounts/logout/">登出</a>]
+		{% else %}
+		[<a href="/accounts/login/">登录</a>]
+		{% endif %}
+		[<a href="/">回主页</a>]
 	</div>
 
-</div>
+
+	<div class="container" style="max-width:50em;background-color:rgb(240,248,240);">
+
+		<h1> 添加集体积分记录 </h1>
+		<hr>
+
+		<form class="form-horizontal" method="POST" action="">
+			{% csrf_token %}
 
 
-<div class="form-group">
-    <label class="col-sm-2 control-label">分数</label>
-    <div class="col-sm-8">
-      <input type="number" class="form-control" id="score" name="score"> 
-    </div>
-</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" id="f-name"> 名称 </label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="title" name="title">
+				</div>
+			</div>
 
-<div class="form-group">
-	<label class="col-sm-2 control-label" id="f-detail"> 记录人 </label>
-	<div class="col-sm-8">
-		<p class="form-control-static">{{name}}</p>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">人员</label>
+				<div class="checkbox col-sm-8">
+					{% for p in members %}
+					<label class="checkbox-inline">
+						<input type="checkbox" name="values" id="box{{p.username}}" value="{{p.username}}">
+						{{p.first_name}}
+					</label>
+					{% endfor %}
+				</div>
+
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">分数</label>
+				<div class="col-sm-8">
+					<input type="number" class="form-control" id="score" name="score">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label" id="f-detail"> 记录人 </label>
+				<div class="col-sm-8">
+					<p class="form-control-static">{{name}}</p>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label" id="f-date"> 日期 </label>
+				<div class="col-sm-4">
+					<input type="date" class="form-control" id="date" name="date">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-8">
+
+					<button type="submit" class="btn btn-default" id="btn">确认提交</button>
+				</div>
+			</div>
+		</form>
+
+		<hr>
+
+
 	</div>
-</div>
-
-<div class="form-group">
-	<label class="col-sm-2 control-label" id="f-date"> 日期 </label>
-	<div class="col-sm-4">
-	<input type="date" class="form-control" id="date" name="date"> 
-	</div>
-</div>
-
-
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-8">
-    
-      <button type="submit" class="btn btn-default" id="btn">确认提交</button>
-    </div>
-  </div>
-</form>
-
-<hr>
-
-
-</div>
 </body>
+
 </html>

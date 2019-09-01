@@ -25,10 +25,10 @@ SECRET_KEY = 'f7c8%kgx(@(wm^vgo(gx4x2vx&s605%8w8ujazb7y@%es1w#$h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-        'team.thubx.com',
-	'thu-debate.com'
-        ]
+# ALLOWED_HOSTS = [
+#        'team.thubx.com',
+#	'thu-debate.com'
+#        ]
 
 
 # Application definition
@@ -78,6 +78,8 @@ WSGI_APPLICATION = 'bld.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
+
+AUTH_USER_MODEL = 'accounts.Debater'
 
 DATABASES = {
     'default': {

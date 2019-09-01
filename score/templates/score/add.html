@@ -1,212 +1,205 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-<title>添加积分-清华大学辩论队积分系统</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<title>添加积分-清华大学辩论队积分系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 
 <body>
-<div style="position:fixed;
+	<div style="position:fixed;
 	right:5pt;top:0;
 	font-size:11pt;
 	color:black;
 	background-color:rgba(225,225,225,0.7);
-	padding:0 0.5em" >
-{% if name %}
-你好 {{name}} [<a href="/accounts/logout/">登出</a>]
-{% else %}
- [<a href="/accounts/login/">登录</a>]
-{% endif %}
- [<a href="/">回主页</a>]
-</div>
-
-
-<div class="container" style="max-width:50em;background-color:rgb(240,248,240);">
-
-<h1> 添加积分记录 </h1>
-<hr>
-
-<form class="form-horizontal" method="POST"  action="" autocomplete="on">
-{% csrf_token %}
-<div class="form-group">
-    <label class="col-sm-2 control-label">姓名</label>
-    <div class="col-sm-8">
-      <p class="form-control-static">{{name}}</p>
-    </div>
-</div>
-
-<div class="form-group">
-	<label class="col-sm-2 control-label"> 类型 </label>
-	<div class="col-sm-4">
-	<select class="form-control" id="kind" name="kind">
-	  	<option secleted="secleted" id="def" value="0">-- 请选择 --</option>
-
-{% load extra %}
-		{%for k in k_list %}
-		<option value="{{k}}">{{kk|kv:k}}</option>
-		{% endfor %}
-
-	</select>
-
-	<div class="checkbox" id="more-info" style="display:none">
-	<label class="checkbox-inline">
-  		<input type="checkbox" name="win" id="win" value="win"> 胜利
-	</label>
-	<label class="checkbox-inline">
-  		<input type="checkbox" name="best" id="best" value="best"> 最佳辩手
-	</label>
+	padding:0 0.5em">
+		{% if name %}
+		你好 {{name}} [<a href="/accounts/logout/">登出</a>]
+		{% else %}
+		[<a href="/accounts/login/">登录</a>]
+		{% endif %}
+		[<a href="/">回主页</a>]
 	</div>
+
+
+	<div class="container" style="max-width:50em;background-color:rgb(240,248,240);">
+
+		<h1> 添加积分记录 </h1>
+		<hr>
+
+		<form class="form-horizontal" method="POST" action="" autocomplete="on">
+			{% csrf_token %}
+			<div class="form-group">
+				<label class="col-sm-2 control-label">姓名</label>
+				<div class="col-sm-8">
+					<p class="form-control-static">{{name}}</p>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label"> 类型 </label>
+				<div class="col-sm-4">
+					<select class="form-control" id="kind" name="kind">
+						<option secleted="secleted" id="def" value="0">-- 请选择 --</option>
+
+						{% load extra %}
+						{%for k in k_list %}
+						<option value="{{k}}">{{kk|kv:k}}</option>
+						{% endfor %}
+
+					</select>
+
+					<div class="checkbox" id="more-info" style="display:none">
+						<label class="checkbox-inline">
+							<input type="checkbox" name="win" id="win" value="win"> 胜利
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="best" id="best" value="best"> 最佳辩手
+						</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">分数</label>
+				<div class="col-sm-8">
+					<p class="form-control-static" id="f-score">0</p>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label" id="f-name"> 名称 </label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="title" name="title">
+					<datalist id="title_list">
+						{% for s in old_name %}
+						<option value="{{s}}">
+							{% endfor %}
+					</datalist>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label" id="f-detail"> 细节 </label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="detail" name="detail">
+					<datalist id="detail_list">
+						{% for s in old_detail %}
+						<option value="{{s}}">
+							{% endfor %}
+					</datalist>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label" id="f-date"> 日期 </label>
+				<div class="col-sm-4">
+					<input type="date" class="form-control" id="date" name="date">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-8">
+					<label>
+						<i>请谨慎认真填写</i>
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-8">
+
+					<button type="submit" class="btn btn-default disabled" id="btn">确认提交</button>
+				</div>
+			</div>
+		</form>
+
+		<span class="helpBolck" id="help">
+			<p> 示例:
+			</p>
+			<p> 正赛 10 黄金联赛 寒门难/不难出贵子(反) 2020-1-1<p>
+					<p>场务 5 第二届新型城镇化 下午 2020-4-1</p>
+		</span>
+
+		<script language="javascript">
+			var sss = {{ ss|safe }};
+			var score = 0;
+			function $(obj) {
+				return document.getElementById(obj);
+			}
+
+			if ($('kind').value != "0")
+				change();
+
+			$("kind").onchange = change;
+			$("win").onchange = change;
+			$("best").onchange = change;
+
+			function base() {
+				$("f-name").innerHTML = "赛事名称";
+				$("f-detail").innerHTML = "辩题<sub>(含持方)</sub>";
+
+				$("detail").setAttribute('list', '');
+				$("title").setAttribute('list', '');
+
+				$("f-date").innerHTML = "比赛日期";
+			}
+
+			function change() {
+				var cho = $("kind").value;
+
+				$("def").style.display = 'none';
+				$("btn").className = 'btn btn-default';
+
+				score = sss[cho];
+
+				base();
+
+				if (cho == "zs" || cho == 'mb' || cho == 'bys') {
+					$("title").setAttribute('list', 'title_list');
+					$("detail").setAttribute('list', 'detail_list');
+				}
+
+				if (cho == "zs") {
+					$("more-info").style.display = 'block';
+					if ($("win").checked)
+						score += 5;
+					if ($("best").checked)
+						score += 3;
+				}
+				else
+					$("more-info").style.display = 'none';
+
+				$("f-score").innerHTML = score;
+
+				if (cho == "mb") {
+					$("f-date").innerHTML = "日期<sub>(模辩日期)</sub>";
+				}
+				if (cho == "cw" || cho == "out") {
+					$("f-detail").innerHTML = "场次";
+				}
+				if (cho == "pw") {
+					$("f-name").innerHTML = "院系";
+					$("f-detail").innerHTML = "辩题、场次";
+				}
+				if (cho == "other") {
+					$("f-score").innerHTML = "请提交后联系队长/副队后台填写分数";
+					$("f-name").innerHTML = "事由";
+					$("f-detail").innerHTML = "细节";
+					$("f-date").innerHTML = "日期";
+
+				}
+
+
+			}
+
+		</script>
+		<hr>
+
+
 	</div>
-</div>
-
-<div class="form-group">
-    <label class="col-sm-2 control-label">分数</label>
-    <div class="col-sm-8">
-      <p class="form-control-static" id="f-score">0</p>
-    </div>
-</div>
-  
-<div class="form-group">
-	<label class="col-sm-2 control-label" id="f-name"> 名称 </label>
-	<div class="col-sm-8">
-	<input type="text" class="form-control" id="title"  name="title"> 
-		<datalist id="title_list">
-			{% for s in old_name %}
-			<option value="{{s}}"> 
-			{% endfor %}
-		</datalist>
-	</div>
-</div>
-
-<div class="form-group">
-	<label class="col-sm-2 control-label" id="f-detail"> 细节 </label>
-	<div class="col-sm-8">
-	<input type="text" class="form-control" id="detail" name="detail">
-		<datalist id="detail_list" >
-			{% for s in old_detail %}
-			<option value="{{s}}"> 
-			{% endfor %}
-		</datalist>
-	</div>
-</div>
-
-<div class="form-group">
-	<label class="col-sm-2 control-label" id="f-date"> 日期 </label>
-	<div class="col-sm-4">
-	<input type="date" class="form-control" id="date" name="date"> 
-	</div>
-</div>
-
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-8">
-    	<label>
-			<i>请谨慎认真填写</i>
-		</label>
-	</div>
-</div>
-
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-8">
-    
-      <button type="submit" class="btn btn-default disabled" id="btn">确认提交</button>
-    </div>
-  </div>
-</form>
-
-<span class="helpBolck" id="help"> 
-<p> 示例:
-</p>
-<p> 正赛 10 黄金联赛 寒门难/不难出贵子(反) 2020-1-1<p>
- 	<p>场务 5 第二届新型城镇化 下午 2020-4-1</p>
-</span>
-
-<script language="javascript">
-	var sss = {{ss|safe}};
-	var score = 0;
-	function $(obj)
-	{
-		return document.getElementById(obj);
-	}
-
-	if( $('kind').value != "0" )
-		change();
-		
-	$("kind").onchange=change;
-	$("win").onchange=change;
-	$("best").onchange=change;
-	
-	function base()
-	{
-		$("f-name").innerHTML = "赛事名称";
-		$("f-detail").innerHTML = "辩题<sub>(含持方)</sub>";
-		
-		$("detail").setAttribute('list', '');		
-		$("title").setAttribute('list', '');
-		
-		$("f-date").innerHTML = "比赛日期";
-	}
-	 
-	function change()
-	{
-		var cho = $("kind").value;
-		
-		$("def").style.display='none';
-		$("btn").className = 'btn btn-default';
-
-		score = sss[cho];
-		
-		base();
-		
-		if(cho == "zs" || cho == 'mb' || cho == 'bys')
-		{
-			$("title").setAttribute('list', 'title_list');
-			$("detail").setAttribute('list', 'detail_list');
-		}
-		
-		if(cho == "zs")
-		{
-			$("more-info").style.display='block';
-			if($("win").checked)
-				score += 5;
-			if($("best").checked)
-				score += 3;
-		}
-		else
-			$("more-info").style.display='none';
-		
-		$("f-score").innerHTML = score;
-
-		if(cho == "mb")
-		{
-			$("f-date").innerHTML = "日期<sub>(模辩日期)</sub>";
-		}
-		if(cho == "cw" || cho == "out")
-		{
-			$("f-detail").innerHTML = "场次";
-		}
-		if(cho == "pw")
-		{
-			$("f-name").innerHTML = "院系";
-			$("f-detail").innerHTML = "辩题、场次";
-		}
-		if(cho == "other")
-		{
-			$("f-score").innerHTML = "请提交后联系队长/副队后台填写分数";
-			$("f-name").innerHTML = "事由";
-			$("f-detail").innerHTML = "细节";
-			$("f-date").innerHTML = "日期";
-			
-		}
-		
-		
-	}
-	
-</script>
-<hr>
-
-
-</div>
 </body>
 
 </html>
